@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-service
+  namespace: k8s-program-bohdan
+spec:
+  selector:
+    matchLabels:
+      app: resource-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: resource-service
+    spec:
+      containers:
+        - name: resource-service
+          image: resource-service-k8s-program:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RESOURCES_DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: RESOURCES_DB_URL
+            - name: RESOURCES_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: RESOURCES_DB_PORT
+            - name: SONGS_MS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: SONGS_MS_URL
+            - name: SONGS_MS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: SONGS_MS_PORT
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_PASSWORD
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: song-service
+  namespace: k8s-program-bohdan
+spec:
+  selector:
+    matchLabels:
+      app: song-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: song-service
+    spec:
+      containers:
+        - name: song-service
+          image: song-service-k8s-program:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SONGS_DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: SONGS_DB_URL
+            - name: SONGS_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: SONGS_DB_PORT
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: song-service-volume
+              mountPath: /test-data
+      volumes:
+        - name: song-service-volume
+          persistentVolumeClaim:
+            claimName: song-service-pvc
+
