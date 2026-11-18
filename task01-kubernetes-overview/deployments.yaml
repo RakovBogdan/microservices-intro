@@ -42,13 +42,13 @@ spec:
                   key: SONGS_MS_PORT
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: env-config
+                secretKeyRef:
+                  name: db-credentials-secret
                   key: POSTGRES_USER
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: env-config
+                secretKeyRef:
+                  name: db-credentials-secret
                   key: POSTGRES_PASSWORD
 ---
 apiVersion: apps/v1
@@ -85,13 +85,13 @@ spec:
                   key: SONGS_DB_PORT
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: env-config
+                secretKeyRef:
+                  name: db-credentials-secret
                   key: POSTGRES_USER
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: env-config
+                secretKeyRef:
+                  name: db-credentials-secret
                   key: POSTGRES_PASSWORD
           volumeMounts:
             - name: song-service-volume

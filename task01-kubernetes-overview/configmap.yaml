@@ -8,8 +8,6 @@ data:
   RESOURCES_DB_PORT: "5433"
   SONGS_DB_URL: song-db
   SONGS_DB_PORT: "5432"
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
   POSTGRES_DB: postgres
   SONGS_MS_URL: song-service
   SONGS_MS_PORT: "8081"
