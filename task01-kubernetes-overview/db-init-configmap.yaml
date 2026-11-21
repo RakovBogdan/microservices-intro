@@ -18,6 +18,5 @@ data:
         album       VARCHAR(255),
         length      VARCHAR(255),
         resource_id INTEGER NOT NULL UNIQUE,
-        year        VARCHAR(255),
-        genre       VARCHAR(255)
+        year        VARCHAR(255)
     );  
