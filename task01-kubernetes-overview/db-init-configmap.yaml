@@ -20,3 +20,4 @@ data:
         resource_id INTEGER NOT NULL UNIQUE,
         year        VARCHAR(255)
     );  
+    ALTER TABLE songs ADD COLUMN IF NOT EXISTS genre VARCHAR(255);
